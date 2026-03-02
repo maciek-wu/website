@@ -1,0 +1,30 @@
+{
+  "short_name": "MW",
+  "name": "Maciej Wasiak Website",
+  "icons": [
+    {
+      "src": "img/icons/symbol-rounded-dark-32.webp",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "img/icons/symbol-rounded-dark-64.webp",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "img/icons/symbol-rounded-dark-192.webp",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "img/icons/symbol-rounded-dark-512.webp",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "display": "standalone",
+  "theme_color": "#3d91fc",
+  "background_color": "#0a0b11",
+  "lang": "en"
+}

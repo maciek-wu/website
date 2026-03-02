@@ -1,0 +1,224 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+@theme {
+  --color-theme-sky: #0ea5e9;
+  --color-theme-blue: #3d91fc;
+  --color-theme-violet: #5e72e4;
+  --color-theme-green: #27cd8d;
+  --color-theme-orange: #e68653;
+  --color-theme-dark: #0a0b11;
+
+  --background-image-space: url("../img/bg-space.webp");
+  --background-image-hero: url("/src/assets/img/bg-hero.webp");
+  --background-image-grid: url("/src/assets/img/bg-floor.svg");
+  --background-image-grid-upper: url("/src/assets/img/bg-grid-upper.svg");
+  --background-image-grid-lower: url("/src/assets/img/bg-grid-lower.svg");
+}
+
+@custom-variant hover (&:hover);
+
+body {
+  font-family: "Outfit", "Montserrat", sans-serif;
+  background: #0a0b11;
+  overflow-x: hidden;
+}
+
+a {
+  font-weight: 500;
+  text-decoration: inherit;
+  color: rgb(94, 114, 228);
+  transition-property:
+    color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+a:hover {
+  color: rgb(255, 255, 255);
+}
+
+b {
+  color: rgb(203, 213, 225);
+}
+
+.svg-banner {
+  margin-top: -1px;
+  transform: scale(1.000001);
+  -webkit-transform: scale(1.000001);
+}
+
+.text-shadow {
+  text-shadow: 2px 2px 5px var(--tw-shadow-color);
+}
+
+.text-shadow-xs {
+  text-shadow: 1px 1px 4px var(--tw-shadow-color);
+}
+
+.border-gradient-transparent::after {
+  border-image-slice: 1;
+  border-image-source: linear-gradient(
+    to bottom,
+    rgb(51, 65, 85),
+    rgba(0, 0, 0, 0)
+  );
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border-color: rgb(31 41 55);
+  border-width: 0px;
+  border-bottom-width: 2px;
+  -webkit-text-fill-color: white;
+  -webkit-box-shadow: 0 0 0px 1000px #0a0b11 inset;
+  box-shadow: 0 0 0px 1000px #0a0b11 inset;
+  transition: background-color 5000s ease-in-out 0s;
+  color: white;
+}
+
+#newsletter input[type="email"] {
+  width: 100%;
+  height: 50px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding-left: 30px;
+  line-height: 1.6;
+}
+
+#newsletter input[type="button"] {
+  height: 50px;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  text-transform: capitalize;
+  padding: 0px 35px;
+  cursor: pointer;
+}
+
+/**
+ * Effects
+ */
+
+.blinking {
+  -webkit-animation: 1s blink step-end infinite;
+  -moz-animation: 1s blink step-end infinite;
+  -ms-animation: 1s blink step-end infinite;
+  -o-animation: 1s blink step-end infinite;
+  animation: 1s blink step-end infinite;
+}
+
+@keyframes blink {
+  from,
+  to {
+    color: transparent;
+  }
+  50% {
+    color: white;
+  }
+}
+
+@-moz-keyframes blink {
+  from,
+  to {
+    color: transparent;
+  }
+  50% {
+    color: white;
+  }
+}
+
+@-webkit-keyframes blink {
+  from,
+  to {
+    color: transparent;
+  }
+  50% {
+    color: white;
+  }
+}
+
+@-ms-keyframes blink {
+  from,
+  to {
+    color: transparent;
+  }
+  50% {
+    color: white;
+  }
+}
+
+@-o-keyframes blink {
+  from,
+  to {
+    color: transparent;
+  }
+  50% {
+    color: white;
+  }
+}
+
+/**
+ * Custom cursor
+ */
+
+body,
+html {
+  cursor: none !important;
+}
+a,
+button,
+input,
+textarea,
+label,
+[role="button"],
+.btn,
+.button {
+  cursor: none !important;
+}
+
+#custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999999;
+  pointer-events: none;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translate3d(-50%, -50%, 0);
+  transition:
+    width 0.2s ease,
+    height 0.2s ease,
+    background-color 0.2s,
+    border 0.2s;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(61, 145, 252, 0.05);
+}
+
+#cursor-dot {
+  border-radius: 50%;
+  transition: all 0.2s;
+  width: 6px;
+  height: 6px;
+  background-color: rgb(61, 145, 252);
+}
+
+#custom-cursor.hovered {
+  width: 60px;
+  height: 60px;
+  background-color: rgba(14, 165, 233, 0.1);
+}
+
+#custom-cursor.hovered #cursor-dot {
+  width: 4px;
+  height: 4px;
+  background-color: rgb(14, 165, 233);
+}
