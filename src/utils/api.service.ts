@@ -224,6 +224,13 @@ const sendEmail = async (
   return apiService.send("POST", url, body);
 };
 
+const addNewsletterEmail = async (email: string): Promise<ApiResult> => {
+  const url = `${import.meta.env.VITE_APP_API_URL}/newsletter/${import.meta.env.VITE_APP_API_NEWSLETTER_ID}`;
+  const body = JSON.stringify({ email });
+
+  return apiService.send("POST", url, body);
+};
+
 export {
   getSkills,
   sortSkills,
@@ -233,5 +240,6 @@ export {
   getTimelineItems,
   getFeedbackItems,
   sendEmail,
+  addNewsletterEmail,
 };
 export type { ApiResult };
