@@ -1,4 +1,4 @@
-import JWT, { SupportedAlgorithms } from "expo-jwt";
+import * as JWT from "jose";
 import {
   feedbackData,
   projectsData,
@@ -57,17 +57,16 @@ const generateToken = async (url: string) => {
     stoken: `${import.meta.env.VITE_APP_API_SECRET}`,
     ttoken: `${Date.now()}`,
   };
-  const token = JWT.encode(
-    {
-      sub: JSON.stringify(payload),
-      iss: "Coredata",
-      exp: Math.floor(Date.now() / 1000) + 5 * 60,
-    },
+  const secret = new TextEncoder().encode(
     `${import.meta.env.VITE_APP_API_SECRET}`,
-    {
-      alg: SupportedAlgorithms.HS256,
-    },
   );
+  const token = await new JWT.SignJWT({
+    sub: JSON.stringify(payload),
+    iss: "Coredata",
+    exp: Math.floor(Date.now() / 1000) + 5 * 60,
+  })
+    .setProtectedHeader({ alg: "HS256" })
+    .sign(secret);
 
   return token;
 };

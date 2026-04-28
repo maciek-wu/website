@@ -11,9 +11,9 @@ importers:
       daisyui:
         specifier: ^5.5.18
         version: 5.5.18
-      expo-jwt:
-        specifier: ^1.8.2
-        version: 1.8.2
+      jose:
+        specifier: ^6.2.3
+        version: 6.2.3
       react:
         specifier: ^19.2.4
         version: 19.2.4
@@ -583,9 +583,6 @@ packages:
     resolution: {integrity: sha512-ei8Aos7ja0weRpFzJnEA9UHJ/7XQmqglbRwnf2ATjcB9Wq874VKH9kfjjirM6UhU2/E5fFYadylyhFldcqSidQ==}
     engines: {node: '>=18'}
 
-  crypto-js@4.2.0:
-    resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
-
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
@@ -605,9 +602,6 @@ packages:
     engines: {node: '>=12'}
     hasBin: true
 
-  expo-jwt@1.8.2:
-    resolution: {integrity: sha512-I2l4WTKWdzQ74ZWcLijXumo/DJltId/gVVgNHBCNsVp0KvJB9rXuXYo+zGx1GnMPsDh1Y5QeGi+W+Ym9vwZ9CQ==}
-
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
@@ -623,6 +617,9 @@ packages:
   jiti@2.6.1:
     resolution: {integrity: sha512-ekilCSN1jwRvIbgeg/57YFh8qQDNbwDb9xT/qu2DAHbFFZUicIl4ygVaAvzveMhMVr3LnpSKTNnwt8PoOfmKhQ==}
     hasBin: true
+
+  jose@6.2.3:
+    resolution: {integrity: sha512-YYVDInQKFJfR/xa3ojUTl8c2KoTwiL1R5Wg9YCydwH0x0B9grbzlg5HC7mMjCtUJjbQ/YnGEZIhI5tCgfTb4Hw==}
 
   lightningcss-android-arm64@1.30.2:
     resolution: {integrity: sha512-BH9sEdOCahSgmkVhBLeU7Hc9DWeZ1Eb6wNS6Da8igvUwAe0sqROHddIlvU06q3WyXVEOYDZ6ykBZQnjTbmo4+A==}
@@ -1142,8 +1139,6 @@ snapshots:
 
   cookie@1.1.1: {}
 
-  crypto-js@4.2.0: {}
-
   csstype@3.2.3: {}
 
   daisyui@5.5.18: {}
@@ -1181,10 +1176,6 @@ snapshots:
       '@esbuild/win32-ia32': 0.21.5
       '@esbuild/win32-x64': 0.21.5
 
-  expo-jwt@1.8.2:
-    dependencies:
-      crypto-js: 4.2.0
-
   fsevents@2.3.3:
     optional: true
 
@@ -1193,6 +1184,8 @@ snapshots:
   graceful-fs@4.2.11: {}
 
   jiti@2.6.1: {}
+
+  jose@6.2.3: {}
 
   lightningcss-android-arm64@1.30.2:
     optional: true
