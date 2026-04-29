@@ -91,7 +91,6 @@ select:-webkit-autofill:focus {
   padding-left: 30px;
   line-height: 1.6;
 }
-
 #newsletter input[type="button"] {
   height: 50px;
   border-top-right-radius: 6px;
@@ -99,6 +98,12 @@ select:-webkit-autofill:focus {
   text-transform: capitalize;
   padding: 0px 35px;
   cursor: pointer;
+}
+#newsletter a {
+  color: rgb(203, 213, 225);
+}
+#newsletter a:hover {
+  color: rgb(255, 255, 255);
 }
 
 /**

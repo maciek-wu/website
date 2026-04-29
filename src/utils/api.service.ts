@@ -7,6 +7,7 @@ import {
 } from "./data";
 import {
   ApiError,
+  ApiPayload,
   ApiResponse,
   ApiResult,
   FeedbackItem,
@@ -95,12 +96,11 @@ const apiService = {
       const response = await fetch<ApiResponse>(url, options);
 
       if (!response.ok) {
-        const errorMessage = await getErrorMessage(response);
-        console.error(errorMessage);
+        const error = await getError(response);
 
         return {
           success: false,
-          result: errorMessage,
+          result: error,
         };
       }
 
@@ -114,28 +114,36 @@ const apiService = {
   },
 };
 
-const getErrorMessage = async (response: Response): Promise<string> => {
+const getError = async (response: Response): Promise<ApiError> => {
   const status = response.status;
+  const defaultDescription = "An error occurred while sending data";
+  const error: ApiError = {
+    code: status,
+    message: `Api error ${status}`,
+    description: defaultDescription,
+    payload: null,
+  };
 
   try {
-    const result: ApiError = await response.json();
-    let errorMessage = "";
+    const payload: ApiPayload = await response.json();
+
+    error.description = payload.status ?? defaultDescription;
+    error.payload = payload;
 
     if (status === 401) {
-      errorMessage = `Authentication error ${status}: ${
-        result.message ?? "Credentials incorrect"
-      }`;
+      error.message = `Authentication error ${status}`;
+      error.description = payload.status ?? "Credentials incorrect";
     } else if (status === 403) {
-      errorMessage = `Authorisation error ${status}: No permissions for the resource`;
-    } else if (status === 502) {
-      errorMessage = `Gateway error ${status}: Service unavailable`;
-    } else {
-      errorMessage = `Api error ${status}: Request incorrect`;
+      error.message = `Authorisation error ${status}`;
+      error.description = "No permissions for the resource";
+    } else if (status === 409) {
+      error.message = "It's already added";
     }
-    return errorMessage;
-  } catch (error) {
-    console.error("Api error message parse error:", error);
-    return `Api error ${status}: Request incorrect`;
+    console.error("Api error response:", payload);
+    return error;
+  } catch (exception) {
+    console.error("Api error message parse error:", exception);
+    return error;
   }
 };
 
