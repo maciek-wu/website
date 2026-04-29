@@ -1,4 +1,4 @@
-import JWT, { SupportedAlgorithms } from "expo-jwt";
+import * as JWT from "jose";
 import {
   feedbackData,
   projectsData,
@@ -7,6 +7,7 @@ import {
 } from "./data";
 import {
   ApiError,
+  ApiPayload,
   ApiResponse,
   ApiResult,
   FeedbackItem,
@@ -57,17 +58,16 @@ const generateToken = async (url: string) => {
     stoken: `${import.meta.env.VITE_APP_API_SECRET}`,
     ttoken: `${Date.now()}`,
   };
-  const token = JWT.encode(
-    {
-      sub: JSON.stringify(payload),
-      iss: "Coredata",
-      exp: Math.floor(Date.now() / 1000) + 5 * 60,
-    },
+  const secret = new TextEncoder().encode(
     `${import.meta.env.VITE_APP_API_SECRET}`,
-    {
-      alg: SupportedAlgorithms.HS256,
-    },
   );
+  const token = await new JWT.SignJWT({
+    sub: JSON.stringify(payload),
+    iss: "Coredata",
+    exp: Math.floor(Date.now() / 1000) + 5 * 60,
+  })
+    .setProtectedHeader({ alg: "HS256" })
+    .sign(secret);
 
   return token;
 };
@@ -96,12 +96,11 @@ const apiService = {
       const response = await fetch<ApiResponse>(url, options);
 
       if (!response.ok) {
-        const errorMessage = await getErrorMessage(response);
-        console.error(errorMessage);
+        const error = await getError(response);
 
         return {
           success: false,
-          result: errorMessage,
+          result: error,
         };
       }
 
@@ -115,28 +114,36 @@ const apiService = {
   },
 };
 
-const getErrorMessage = async (response: Response): Promise<string> => {
+const getError = async (response: Response): Promise<ApiError> => {
   const status = response.status;
+  const defaultDescription = "An error occurred while sending data";
+  const error: ApiError = {
+    code: status,
+    message: `Api error ${status}`,
+    description: defaultDescription,
+    payload: null,
+  };
 
   try {
-    const result: ApiError = await response.json();
-    let errorMessage = "";
+    const payload: ApiPayload = await response.json();
+
+    error.description = payload.status ?? defaultDescription;
+    error.payload = payload;
 
     if (status === 401) {
-      errorMessage = `Authentication error ${status}: ${
-        result.message ?? "Credentials incorrect"
-      }`;
+      error.message = `Authentication error ${status}`;
+      error.description = payload.status ?? "Credentials incorrect";
     } else if (status === 403) {
-      errorMessage = `Authorisation error ${status}: No permissions for the resource`;
-    } else if (status === 502) {
-      errorMessage = `Gateway error ${status}: Service unavailable`;
-    } else {
-      errorMessage = `Api error ${status}: Request incorrect`;
+      error.message = `Authorisation error ${status}`;
+      error.description = "No permissions for the resource";
+    } else if (status === 409) {
+      error.message = "It's already added";
     }
-    return errorMessage;
-  } catch (error) {
-    console.error("Api error message parse error:", error);
-    return `Api error ${status}: Request incorrect`;
+    console.error("Api error response:", payload);
+    return error;
+  } catch (exception) {
+    console.error("Api error message parse error:", exception);
+    return error;
   }
 };
 
@@ -224,6 +231,13 @@ const sendEmail = async (
   return apiService.send("POST", url, body);
 };
 
+const addNewsletterEmail = async (email: string): Promise<ApiResult> => {
+  const url = `${import.meta.env.VITE_APP_API_URL}/newsletter/${import.meta.env.VITE_APP_API_NEWSLETTER_ID}`;
+  const body = JSON.stringify({ email });
+
+  return apiService.send("POST", url, body);
+};
+
 export {
   getSkills,
   sortSkills,
@@ -233,5 +247,6 @@ export {
   getTimelineItems,
   getFeedbackItems,
   sendEmail,
+  addNewsletterEmail,
 };
 export type { ApiResult };

@@ -8,9 +8,9 @@ This is my official website project.
 
 ## Tech stack
 
-- Typescript (+DaisyUI)
+- Typescript
 - React
-- Tailwind
+- Tailwind (+DaisyUI)
 - Vite
 
 This project uses [Vite](https://vitejs.dev/) and [SWC](https://swc.rs/) to bootstrap. For package management I use [Pnpm](https://pnpm.io/).

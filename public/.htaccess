@@ -1,6 +1,6 @@
 <IfModule mod_headers.c>
   Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
-  Header set Content-Security-Policy "default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self'"
+  Header set Content-Security-Policy "default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self'; connect-src https://server.coredata.pl"
   Header set X-Frame-Options "DENY"
   Header set X-Content-Type-Options "nosniff"
   Header set Referrer-Policy "no-referrer"
