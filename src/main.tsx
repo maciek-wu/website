@@ -9,19 +9,19 @@ import "./assets/css/fonts.css";
 import "./assets/css/index.css";
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-    errorElement: <ErrorBoundary />,
-  },
-  {
-    path: "*",
-    element: <NotFound />,
-  },
+	{
+		path: "/",
+		element: <App />,
+		errorElement: <ErrorBoundary />,
+	},
+	{
+		path: "*",
+		element: <NotFound />,
+	},
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>,
+	<React.StrictMode>
+		<RouterProvider router={router} />
+	</React.StrictMode>,
 );
