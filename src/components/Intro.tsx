@@ -13,11 +13,6 @@ import Title from "./ui/Title";
 import UnderlineLink from "./ui/UnderlineLink";
 import { cacheService } from "../utils/cache.service";
 
-interface IntroData {
-  played: boolean;
-  skipped: boolean;
-}
-
 interface IntroProps {
   close: () => void;
 }
@@ -58,10 +53,6 @@ export default function Intro({ close }: IntroProps) {
   const [spacemenSteps, setSpacemenSteps] = useState<AnimationStep[]>([
     { action: "moveDown", delay: 1000 },
   ]);
-  const introState = cacheService.getData<IntroData>("intro") ?? {
-    played: false,
-    skipped: false,
-  };
 
   async function handleStart() {
     if (typing || skipped) {
@@ -78,8 +69,7 @@ export default function Intro({ close }: IntroProps) {
     setTypeDelay(0);
     setTypeSteps([{ text: "Excellent! Get ready!" }]);
 
-    introState.played = true;
-    cacheService.set("intro", introState);
+    cacheService.set("introPlayed", true);
 
     await pause(2000);
     await handleClose();
@@ -88,8 +78,7 @@ export default function Intro({ close }: IntroProps) {
   async function handleSkip() {
     setSkipped(true);
 
-    introState.skipped = true;
-    cacheService.set("intro", introState);
+    cacheService.set("introSkipped", true);
 
     await handleClose();
   }
@@ -98,7 +87,7 @@ export default function Intro({ close }: IntroProps) {
     blackOut();
     player.volumeDown();
 
-    await pause(1000);
+    await pause(2000);
     return close();
   }
 
@@ -113,11 +102,6 @@ export default function Intro({ close }: IntroProps) {
   }
 
   useEffect(() => {
-    if (introState.skipped) {
-      blackOut();
-      return close();
-    }
-
     playAudio();
 
     return () => {
@@ -127,6 +111,7 @@ export default function Intro({ close }: IntroProps) {
 
   return (
     <div className="relative w-screen h-screen overflow-hidden">
+      <BlackOut active={true} mode="in" />
       <IntroTopbar skip={() => handleSkip()} />
       <SpaceBackground />
       <TransformImage src={imgEarth} steps={imageTransformSteps} />
@@ -148,7 +133,6 @@ export default function Intro({ close }: IntroProps) {
         )}
       </div>
       <div className="-ml-1">
-        <BlackOut active={true} mode="in" />
         <BlackOut active={blackOutActive} mode="out" />
       </div>
       <Spaceman position={["top-20", "right-40"]} steps={spacemenSteps} />

@@ -1,4 +1,4 @@
-type CacheKey = "at" | "rt" | "user" | "intro";
+type CacheKey = "at" | "rt" | "user" | "introSkipped" | "introPlayed";
 
 export interface CacheItem {
   value: string;
