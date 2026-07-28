@@ -62,7 +62,8 @@ export default function Contact() {
 
     if (!result.success) {
       setError(
-        result.result.error || "An error occurred while sending the email.",
+        result.result.description ||
+          "An error occurred while sending the email.",
       );
       return;
     }

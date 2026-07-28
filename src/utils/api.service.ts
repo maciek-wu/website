@@ -107,9 +107,15 @@ const apiService = {
       const result = response.status !== 204 ? await response.json() : null;
 
       return { success: true, result };
-    } catch (error) {
-      console.error("Api error:", error);
-      return { success: false, result: `Api error: ${error}` };
+    } catch (exception) {
+      console.error("Api error:", exception);
+      const error: ApiError = {
+        code: 503,
+        message: "Service Unavailable",
+        description: `Api is currently unavailable. ${exception}`,
+        payload: null,
+      };
+      return { success: false, result: error };
     }
   },
 };

@@ -1,7 +1,7 @@
 import { RefObject, SubmitEvent, useState } from "react";
 import Button from "../Button";
-import Input from "./Input";
 import Loader from "../Loader";
+import Input from "./Input";
 import TextArea from "./TextArea";
 
 export enum HtmlElementType {
@@ -56,8 +56,6 @@ export default function Form({
       }
       if (!valid) {
         formValid = false;
-        console.log(field);
-        console.log(errorMessage);
       }
       updateField({ ...field, valid });
     }

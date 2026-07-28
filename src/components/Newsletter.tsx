@@ -3,11 +3,11 @@ import imgCircle from "../assets/img/circle.svg";
 import imgDots1 from "../assets/img/dots1.svg";
 import imgDots2 from "../assets/img/dots2.svg";
 import { addNewsletterEmail } from "../utils/api.service";
+import { ApiError } from "../utils/definitions";
+import Loader from "./ui/Loader";
 import Section from "./ui/Section";
 import SubHeader from "./ui/SubHeader";
-import Loader from "./ui/Loader";
 import TextButton from "./ui/TextButton";
-import { ApiError } from "../utils/definitions";
 
 export default function Newsletter() {
   const [error, setError] = useState<ApiError | undefined>();
@@ -23,6 +23,7 @@ export default function Newsletter() {
     ) as HTMLInputElement;
 
     if (!validateEmail(input)) {
+      setLoading(false);
       return;
     }
 
@@ -106,7 +107,7 @@ export default function Newsletter() {
                   <input
                     type="button"
                     value="Send"
-                    className="absolute top-0 right-0 appearance-none text-sm text-white font-semibold bg-theme-violet hover:bg-indigo-600 active:bg-theme-blue focus:ring-0 focus:outline-none"
+                    className="absolute top-0 right-0 appearance-none text-sm text-white font-semibold bg-theme-violet hover:bg-indigo-600 active:bg-theme-blue focus:ring-0 focus:outline-none transition-colors duration-300 ease-in-out"
                     onClick={handleSend}
                   />
                 </>
@@ -115,7 +116,7 @@ export default function Newsletter() {
               {error && (
                 <div className="text-theme-orange text-left">
                   <h3 className="text-lg font-semibold">{error.message}</h3>
-                  <p>{error.description}</p>
+                  <div className="mb-2">{error.description}</div>
                   <TextButton label="Retry" onClick={() => reset()} />
                 </div>
               )}

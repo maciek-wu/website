@@ -14,6 +14,7 @@ import Newsletter from "./Newsletter";
 import Skills from "./Skills";
 import Spaceman from "./ui/effects/Spaceman";
 import Loading from "./ui/Loading";
+import { cacheService } from "../utils/cache.service";
 
 interface AppProps {
   loaded?: boolean;
@@ -22,7 +23,8 @@ interface AppProps {
 export default function App({ loaded = false }: AppProps) {
   const { isMobile } = useUtil();
   const { loading } = useLoading();
-  const [intro, setIntro] = useState(true);
+  const skipIntro = cacheService.getData<boolean>("introSkipped") ?? false;
+  const [intro, setIntro] = useState(!skipIntro);
 
   useEffect(() => {
     if (!isMobile()) {

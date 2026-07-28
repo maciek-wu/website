@@ -11,6 +11,7 @@ import TransformImage from "./ui/effects/TransformImage";
 import TypeText, { TypeStep } from "./ui/effects/TypeText";
 import Title from "./ui/Title";
 import UnderlineLink from "./ui/UnderlineLink";
+import { cacheService } from "../utils/cache.service";
 
 interface IntroProps {
   close: () => void;
@@ -53,7 +54,7 @@ export default function Intro({ close }: IntroProps) {
     { action: "moveDown", delay: 1000 },
   ]);
 
-  async function handleClose() {
+  async function handleStart() {
     if (typing || skipped) {
       return;
     }
@@ -67,15 +68,26 @@ export default function Intro({ close }: IntroProps) {
     setSpacemenSteps([{ action: "moveUp" }]);
     setTypeDelay(0);
     setTypeSteps([{ text: "Excellent! Get ready!" }]);
+
+    cacheService.set("introPlayed", true);
+
     await pause(2000);
-    await handleSkip();
+    await handleClose();
   }
 
   async function handleSkip() {
     setSkipped(true);
+
+    cacheService.set("introSkipped", true);
+
+    await handleClose();
+  }
+
+  async function handleClose() {
     blackOut();
     player.volumeDown();
-    await pause(1000);
+
+    await pause(2000);
     return close();
   }
 
@@ -99,6 +111,7 @@ export default function Intro({ close }: IntroProps) {
 
   return (
     <div className="relative w-screen h-screen overflow-hidden">
+      <BlackOut active={true} mode="in" />
       <IntroTopbar skip={() => handleSkip()} />
       <SpaceBackground />
       <TransformImage src={imgEarth} steps={imageTransformSteps} />
@@ -114,7 +127,7 @@ export default function Intro({ close }: IntroProps) {
         {!typing && !skipped && !closing && (
           <UnderlineLink
             label="Let's start!"
-            onClick={handleClose}
+            onClick={handleStart}
             fadeIn={true}
           />
         )}
